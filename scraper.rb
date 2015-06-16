@@ -10,19 +10,16 @@ def clean_whitespace(a)
 end
 
 def scrape_table(doc, comment_url)
-  doc.search('table tbody tr').each do |tr|
-    # Columns in table
-    # Show  Number  Submitted  Details
-    tds = tr.search('td')
+  doc.at('#ctl00_ctMain_pnlMain').search('.result').each do |result|
     h = tds.map{|td| td.inner_html}
-  
+
     record = {
-      'info_url' => (doc.uri + tds[0].at('a')['href']).to_s,
-      'comment_url' => comment_url + CGI::escape("Development Application Enquiry: " + clean_whitespace(h[1])),
-      'council_reference' => clean_whitespace(h[1]),
-      'date_received' => Date.strptime(clean_whitespace(h[2]), '%d/%m/%Y').to_s,
-      'address' => clean_whitespace(tds[3].at('b').inner_text),
-      'description' => CGI::unescapeHTML(clean_whitespace(h[3].split('<br>')[1..-1].join)),
+      'info_url' => (doc.uri + result.at('a')['href']).to_s,
+      'comment_url' => comment_url + CGI::escape("Development Application Enquiry: " + result.at('a').text,
+      'council_reference' => result.at('a').text,
+      'date_received' => Date.strptime(result.at('div').text.gsub(/.*Submitted: /m, ''), '%d/%m/%Y').to_s,
+      'address' => clean_whitespace(result.at('div').at('strong').inner_text),
+      'description' => clean_whitespace(result.at('div').children[4].text),
       'date_scraped' => Date.today.to_s
     }
     
@@ -36,7 +33,7 @@ end
 
 def scrape_and_follow_next_link(doc, comment_url)
   scrape_table(doc, comment_url)
-  nextButton = doc.at('.rgPageNext')
+  nextButton = doc.at('.pagination .next')
   unless nextButton.nil? || nextButton['onclick'] =~ /return false/
     form = doc.forms.first
     
