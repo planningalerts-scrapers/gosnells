@@ -1,12 +1,13 @@
 require 'scraperwiki'
-require 'rubygems'
 require 'mechanize'
 
-starting_url = 'http://www.eservices.lmc.nsw.gov.au/ApplicationTracking/Pages/XC.Track/SearchApplication.aspx?d=thismonth&k=LodgementDate&t=161'
-comment_url = 'mailto:leichhardt@lmc.nsw.gov.au?subject='
+use_cache = false
+cache_fn = 'cache.html'
+starting_url = 'http://apps.gosnells.wa.gov.au/ICON/Pages/XC.Track/SearchApplication.aspx?d=thisweek&k=LodgementDate'
+comment_url = 'mailto:council@gosnells.wa.gov.au?Subject='
 
-def clean_whitespace(a)
-  a.gsub("\r", ' ').gsub("\n", ' ').squeeze(" ").strip
+def clean(a)
+  a.gsub("\r", ' ').gsub("\n", ' ').squeeze(' ').strip
 end
 
 def scrape_table(doc, comment_url)
@@ -14,13 +15,8 @@ def scrape_table(doc, comment_url)
     h = tds.map{|td| td.inner_html}
 
     record = {
-      'info_url' => (doc.uri + result.at('a')['href']).to_s,
-      'comment_url' => comment_url + CGI::escape("Development Application Enquiry: " + result.at('a').text,
-      'council_reference' => result.at('a').text,
       'date_received' => Date.strptime(result.at('div').text.gsub(/.*Submitted: /m, ''), '%d/%m/%Y').to_s,
-      'address' => clean_whitespace(result.at('div').at('strong').inner_text),
       'description' => clean_whitespace(result.at('div').children[4].text),
-      'date_scraped' => Date.today.to_s
     }
     
     if ScraperWiki.select("* from data where `council_reference`='#{record['council_reference']}'").empty? 
@@ -31,31 +27,45 @@ def scrape_table(doc, comment_url)
   end
 end
 
-def scrape_and_follow_next_link(doc, comment_url)
-  scrape_table(doc, comment_url)
-  nextButton = doc.at('.pagination .next')
-  unless nextButton.nil? || nextButton['onclick'] =~ /return false/
-    form = doc.forms.first
-    
-    # The joy of dealing with ASP.NET
-    form['__EVENTTARGET'] = nextButton['name']
-    form['__EVENTARGUMENT'] = ''
-    # It doesn't seem to work without these stupid values being set.
-    # Would be good to figure out where precisely in the javascript these values are coming from.
-    form['ctl00%24RadScriptManager1']=
-      'ctl00%24cphContent%24ctl00%24ctl00%24cphContent%24ctl00%24Radajaxpanel2Panel%7Cctl00%24cphContent%24ctl00%24ctl00%24RadGrid1%24ctl00%24ctl03%24ctl01%24ctl10'
-    form['ctl00_RadScriptManager1_HiddenField']=
-      '%3B%3BSystem.Web.Extensions%2C%20Version%3D3.5.0.0%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D31bf3856ad364e35%3Aen-US%3A0d787d5c-3903-4814-ad72-296cea810318%3Aea597d4b%3Ab25378d2%3BTelerik.Web.UI%2C%20Version%3D2009.1.527.35%2C%20Culture%3Dneutral%2C%20PublicKeyToken%3D121fae78165ba3d4%3Aen-US%3A1e3fef00-f492-4ed8-96ce-6371bc241e1c%3A16e4e7cd%3Af7645509%3A24ee1bba%3Ae330518b%3A1e771326%3Ac8618e41%3A4cacbc31%3A8e6f0d33%3Aed16cbdc%3A58366029%3Aaa288e2d'
-    doc = form.submit(form.button_with(:name => nextButton['name']))
-    scrape_and_follow_next_link(doc, comment_url)
+if use_cache and File.exist?(cache_fn)
+  body = ''
+  File.open(cache_fn, 'r') {|f| body = f.read() }
+  doc = Nokogiri(body)
+else
+  agent = Mechanize.new
+  # Click on "I Agree"
+  doc = agent.get(starting_url)
+  doc = doc.forms.first.submit(doc.forms.first.button_with(:value => "I Agree"), "Accept-Encoding" => "identity")
+  File.open(cache_fn, 'w') {|f| f.write(doc.body) }
+end
+
+found = false
+doc.search('.result').each do |result|
+  found = true
+
+  a = result.search('a')[0]
+  council_reference = a.inner_text
+  address = clean(result.search('strong')[0].inner_text)
+  info_url = (URI(starting_url) + a.attribute('href')).to_s
+
+  lodged = clean(result.children[10].children[0].inner_text)
+  lodged =~ /Lodged: (\S+) /;
+  on_notice_from = $~.captures.first;
+
+  record = {
+    'council_reference' => council_reference,
+    'address' => address,
+    'description' => result.children[4].inner_text,
+    'info_url' => info_url,
+    'comment_url' => comment_url + CGI::escape("Planning application " + council_reference),
+    'date_scraped' => Date.today.to_s,
+    'on_notice_from' => Date.parse(on_notice_from).to_s,
+  }
+  if (ScraperWiki.select("* from data where `council_reference`='#{record['council_reference']}'").empty? rescue true)
+    ScraperWiki.save_sqlite(['council_reference'], record)
+  else
+    puts 'Skipping already saved record ' + record['council_reference']
   end
 end
 
-agent = Mechanize.new
-
-# Jump through bollocks agree screen
-doc = agent.get(starting_url)
-doc = doc.forms.first.submit(doc.forms.first.button_with(:value => "I Agree"), "Accept-Encoding" => "identity")
-doc = agent.get(starting_url)
-
-scrape_and_follow_next_link(doc, comment_url)
+raise "No records found." unless found
