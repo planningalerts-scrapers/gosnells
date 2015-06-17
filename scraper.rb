@@ -10,31 +10,14 @@ def clean(a)
   a.gsub("\r", ' ').gsub("\n", ' ').squeeze(' ').strip
 end
 
-def scrape_table(doc, comment_url)
-  doc.at('#ctl00_ctMain_pnlMain').search('.result').each do |result|
-    h = tds.map{|td| td.inner_html}
-
-    record = {
-      'date_received' => Date.strptime(result.at('div').text.gsub(/.*Submitted: /m, ''), '%d/%m/%Y').to_s,
-      'description' => clean_whitespace(result.at('div').children[4].text),
-    }
-    
-    if ScraperWiki.select("* from data where `council_reference`='#{record['council_reference']}'").empty? 
-      ScraperWiki.save_sqlite(['council_reference'], record)
-    else
-      puts "Skipping already saved record " + record['council_reference']
-    end
-  end
-end
-
 if use_cache and File.exist?(cache_fn)
   body = ''
   File.open(cache_fn, 'r') {|f| body = f.read() }
   doc = Nokogiri(body)
 else
   agent = Mechanize.new
-  # Click on "I Agree"
   doc = agent.get(starting_url)
+  # Click on "I Agree"
   doc = doc.forms.first.submit(doc.forms.first.button_with(:value => "I Agree"), "Accept-Encoding" => "identity")
   File.open(cache_fn, 'w') {|f| f.write(doc.body) }
 end
