@@ -51,4 +51,4 @@ doc.search('.result').each do |result|
   end
 end
 
-raise "No records found." unless found
+puts "No records found." unless found
