@@ -33,8 +33,9 @@ doc.search('.result').each do |result|
 
   lodged = clean(result.children[10].children[0].inner_text)
   lodged =~ /Lodged: (\S+) /;
-  on_notice_from = $~.captures.first;
 
+  on_notice_from = $~.captures.first rescue nil
+  next unless on_notice_from
   record = {
     'council_reference' => council_reference,
     'address' => address,
