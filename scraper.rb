@@ -4,7 +4,6 @@ require 'mechanize'
 use_cache = false
 cache_fn = 'cache.html'
 starting_url = 'http://apps.gosnells.wa.gov.au/ICON/Pages/XC.Track/SearchApplication.aspx?d=thisweek&k=LodgementDate'
-comment_url = 'mailto:council@gosnells.wa.gov.au?Subject='
 
 def clean(a)
   a.gsub("\r", ' ').gsub("\n", ' ').squeeze(' ').strip
@@ -41,7 +40,6 @@ doc.search('.result').each do |result|
     'address' => address,
     'description' => result.children[4].inner_text,
     'info_url' => info_url,
-    'comment_url' => comment_url + CGI::escape("Planning application " + council_reference),
     'date_scraped' => Date.today.to_s,
     'on_notice_from' => Date.parse(on_notice_from).to_s,
   }

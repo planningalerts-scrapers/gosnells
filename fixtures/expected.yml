@@ -4,49 +4,42 @@
   description: Certified building permit - Certified building permit - Water Tank
     (Amendment to BA19/00410)
   info_url: http://apps.gosnells.wa.gov.au/ICON/Pages/XC.Track/SearchApplication.aspx?id=580623
-  comment_url: mailto:council@gosnells.wa.gov.au?Subject=Planning+application+BA19%2F00572
   date_scraped: '2019-05-15'
   on_notice_from: '2019-06-04'
 - council_reference: BA19/00573
   address: 101 Warton Road THORNLIE WA 6108
   description: Uncertified building permit - Uncertified building permit - Shed
   info_url: http://apps.gosnells.wa.gov.au/ICON/Pages/XC.Track/SearchApplication.aspx?id=580637
-  comment_url: mailto:council@gosnells.wa.gov.au?Subject=Planning+application+BA19%2F00573
   date_scraped: '2019-05-15'
   on_notice_from: '2019-06-04'
 - council_reference: BA19/00574
   address: 38 Chamberlain Street GOSNELLS WA 6110
   description: Uncertified building permit - Uncertified building permit - Carport
   info_url: http://apps.gosnells.wa.gov.au/ICON/Pages/XC.Track/SearchApplication.aspx?id=580665
-  comment_url: mailto:council@gosnells.wa.gov.au?Subject=Planning+application+BA19%2F00574
   date_scraped: '2019-05-15'
   on_notice_from: '2019-06-04'
 - council_reference: BA19/00575
   address: 45 Jubilee Street BECKENHAM WA 6107
   description: Uncertified building permit - Uncertified building permit - Front fence
   info_url: http://apps.gosnells.wa.gov.au/ICON/Pages/XC.Track/SearchApplication.aspx?id=580701
-  comment_url: mailto:council@gosnells.wa.gov.au?Subject=Planning+application+BA19%2F00575
   date_scraped: '2019-05-15'
   on_notice_from: '2019-06-04'
 - council_reference: BA19/00576
   address: 61 Alexandria Boulevard CANNING VALE WA 6155
   description: Certified building permit - Certified building permit - Shed
   info_url: http://apps.gosnells.wa.gov.au/ICON/Pages/XC.Track/SearchApplication.aspx?id=580734
-  comment_url: mailto:council@gosnells.wa.gov.au?Subject=Planning+application+BA19%2F00576
   date_scraped: '2019-05-15'
   on_notice_from: '2019-06-04'
 - council_reference: BA19/00577
   address: 6 B Lutz Court GOSNELLS WA 6110
   description: Uncertified building permit - Uncertified building permit - Patio
   info_url: http://apps.gosnells.wa.gov.au/ICON/Pages/XC.Track/SearchApplication.aspx?id=580737
-  comment_url: mailto:council@gosnells.wa.gov.au?Subject=Planning+application+BA19%2F00577
   date_scraped: '2019-05-15'
   on_notice_from: '2019-06-04'
 - council_reference: BA19/00578
   address: 15 Federal Close GOSNELLS WA 6110
   description: Uncertified building permit - Uncertified building permit - Shed
   info_url: http://apps.gosnells.wa.gov.au/ICON/Pages/XC.Track/SearchApplication.aspx?id=580847
-  comment_url: mailto:council@gosnells.wa.gov.au?Subject=Planning+application+BA19%2F00578
   date_scraped: '2019-05-15'
   on_notice_from: '2019-06-05'
 - council_reference: BA19/00579
@@ -54,21 +47,18 @@
   description: Certified building permit - Certified building permit - Solar Panels
     - Caltex Service Station
   info_url: http://apps.gosnells.wa.gov.au/ICON/Pages/XC.Track/SearchApplication.aspx?id=580859
-  comment_url: mailto:council@gosnells.wa.gov.au?Subject=Planning+application+BA19%2F00579
   date_scraped: '2019-05-15'
   on_notice_from: '2019-06-05'
 - council_reference: BA19/00580
   address: 7 Burford Place CANNING VALE WA 6155
   description: Certified building permit - Certified building permit - Patio
   info_url: http://apps.gosnells.wa.gov.au/ICON/Pages/XC.Track/SearchApplication.aspx?id=581046
-  comment_url: mailto:council@gosnells.wa.gov.au?Subject=Planning+application+BA19%2F00580
   date_scraped: '2019-05-15'
   on_notice_from: '2019-06-06'
 - council_reference: BA19/00581
   address: 16 Azima Street SOUTHERN RIVER WA 6110
   description: Certified building permit - Certified building permit - Single Dwelling
   info_url: http://apps.gosnells.wa.gov.au/ICON/Pages/XC.Track/SearchApplication.aspx?id=581077
-  comment_url: mailto:council@gosnells.wa.gov.au?Subject=Planning+application+BA19%2F00581
   date_scraped: '2019-05-15'
   on_notice_from: '2019-06-06'
 - council_reference: BO19/00025
@@ -76,14 +66,12 @@
   description: New building - complete (s. 46) - Occupancy permit - Office / Warehouse
     Fitout
   info_url: http://apps.gosnells.wa.gov.au/ICON/Pages/XC.Track/SearchApplication.aspx?id=580922
-  comment_url: mailto:council@gosnells.wa.gov.au?Subject=Planning+application+BO19%2F00025
   date_scraped: '2019-05-15'
   on_notice_from: '2019-06-05'
 - council_reference: BO19/00026
   address: 92 Kenwick Road KENWICK WA 6107
   description: New building - complete (s. 46) - Occupancy permit - School
   info_url: http://apps.gosnells.wa.gov.au/ICON/Pages/XC.Track/SearchApplication.aspx?id=581075
-  comment_url: mailto:council@gosnells.wa.gov.au?Subject=Planning+application+BO19%2F00026
   date_scraped: '2019-05-15'
   on_notice_from: '2019-06-06'
 - council_reference: DA19/00140
@@ -91,14 +79,12 @@
   description: Commercial - Planning Development Application - 43 (Lot 1) Attfield
     Street Maddington - Signage (Auto Service Centre)
   info_url: http://apps.gosnells.wa.gov.au/ICON/Pages/XC.Track/SearchApplication.aspx?id=580954
-  comment_url: mailto:council@gosnells.wa.gov.au?Subject=Planning+application+DA19%2F00140
   date_scraped: '2019-05-15'
   on_notice_from: '2019-06-05'
 - council_reference: DA19/10170
   address: 72 A Towncentre Drive THORNLIE WA 6108
   description: Single residential class 10 - Building development application - Patio
   info_url: http://apps.gosnells.wa.gov.au/ICON/Pages/XC.Track/SearchApplication.aspx?id=580887
-  comment_url: mailto:council@gosnells.wa.gov.au?Subject=Planning+application+DA19%2F10170
   date_scraped: '2019-05-15'
   on_notice_from: '2019-06-05'
 - council_reference: DA19/10171
@@ -106,7 +92,6 @@
   description: Single residential class 1 - Building development application - Extension
     to dwelling, patio, carport and front fence
   info_url: http://apps.gosnells.wa.gov.au/ICON/Pages/XC.Track/SearchApplication.aspx?id=580967
-  comment_url: mailto:council@gosnells.wa.gov.au?Subject=Planning+application+DA19%2F10171
   date_scraped: '2019-05-15'
   on_notice_from: '2019-06-05'
 - council_reference: DA19/10172
@@ -114,6 +99,5 @@
   description: Single residential class 1 - Building development application - Single
     Dwelling
   info_url: http://apps.gosnells.wa.gov.au/ICON/Pages/XC.Track/SearchApplication.aspx?id=580981
-  comment_url: mailto:council@gosnells.wa.gov.au?Subject=Planning+application+DA19%2F10172
   date_scraped: '2019-05-15'
   on_notice_from: '2019-06-06'
