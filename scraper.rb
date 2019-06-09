@@ -3,7 +3,7 @@ require 'mechanize'
 
 use_cache = false
 cache_fn = 'cache.html'
-starting_url = 'http://apps.gosnells.wa.gov.au/ICON/Pages/XC.Track/SearchApplication.aspx?d=thisweek&k=LodgementDate'
+starting_url = 'http://apps.gosnells.wa.gov.au/ICON/Pages/XC.Track/SearchApplication.aspx?d=last14days&k=LodgementDate'
 
 def clean(a)
   a.gsub("\r", ' ').gsub("\n", ' ').squeeze(' ').strip
