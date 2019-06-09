@@ -37,11 +37,11 @@ doc.search('.result').each do |result|
   next unless on_notice_from
   record = {
     'council_reference' => council_reference,
-    'address' => address,
     'description' => result.children[4].inner_text,
-    'info_url' => info_url,
+    'address' => address,
     'date_scraped' => Date.today.to_s,
-    'on_notice_from' => Date.parse(on_notice_from).to_s,
+    'info_url' => info_url,
+    'on_notice_from' => Date.parse(on_notice_from).to_s
   }
   ScraperWiki.save_sqlite(['council_reference'], record)
 end
