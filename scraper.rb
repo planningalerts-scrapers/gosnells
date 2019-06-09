@@ -1,49 +1,9 @@
-require 'scraperwiki'
-require 'mechanize'
+require "icon_scraper"
 
-use_cache = false
-cache_fn = 'cache.html'
-starting_url = 'http://apps.gosnells.wa.gov.au/ICON/Pages/XC.Track/SearchApplication.aspx?d=last14days&k=LodgementDate'
-
-def clean(a)
-  a.gsub("\r", ' ').gsub("\n", ' ').squeeze(' ').strip
+IconScraper.scrape_with_params(
+  url: "http://apps.gosnells.wa.gov.au/ICON",
+  period: "last14days"
+) do |record|
+  record["address"] = record["address"].gsub(",", "")
+  IconScraper.save(record)
 end
-
-if use_cache and File.exist?(cache_fn)
-  body = ''
-  File.open(cache_fn, 'r') {|f| body = f.read() }
-  doc = Nokogiri(body)
-else
-  agent = Mechanize.new
-  doc = agent.get(starting_url)
-  # Click on "I Agree"
-  doc = doc.forms.first.submit(doc.forms.first.button_with(:value => "I Agree"), "Accept-Encoding" => "identity")
-  File.open(cache_fn, 'w') {|f| f.write(doc.body) }
-end
-
-found = false
-doc.search('.result').each do |result|
-  found = true
-
-  a = result.search('a')[0]
-  council_reference = a.inner_text
-  address = clean(result.search('strong')[0].inner_text)
-  info_url = (URI(starting_url) + a.attribute('href')).to_s
-
-  lodged = clean(result.children[10].children[0].inner_text)
-  lodged =~ /Lodged: (\S+) /;
-
-  on_notice_from = $~.captures.first rescue nil
-  next unless on_notice_from
-  record = {
-    'council_reference' => council_reference,
-    'description' => result.children[4].inner_text,
-    'date_received' => Date.parse(on_notice_from).to_s,
-    'address' => address,
-    'date_scraped' => Date.today.to_s,
-    'info_url' => info_url
-  }
-  ScraperWiki.save_sqlite(['council_reference'], record)
-end
-
-puts "No records found." unless found
