@@ -38,10 +38,10 @@ doc.search('.result').each do |result|
   record = {
     'council_reference' => council_reference,
     'description' => result.children[4].inner_text,
+    'date_received' => Date.parse(on_notice_from).to_s,
     'address' => address,
     'date_scraped' => Date.today.to_s,
-    'info_url' => info_url,
-    'on_notice_from' => Date.parse(on_notice_from).to_s
+    'info_url' => info_url
   }
   ScraperWiki.save_sqlite(['council_reference'], record)
 end
